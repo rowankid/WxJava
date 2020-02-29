@@ -1,11 +1,9 @@
 package com.github.binarywang.wxpay.bean.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Map;
 
 /**
  * 发送红包请求参数对象.
@@ -20,9 +18,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @XStreamAlias("xml")
 public class WxPaySendRedpackRequest extends BaseWxPayRequest {
+  private static final long serialVersionUID = -2035425086824987567L;
+
   @Override
   protected String[] getIgnoredParamsForSign() {
-    return new String[]{"sign_type"};
+    return new String[]{"sign_type", "sub_appid"};
   }
 
   /**
@@ -181,6 +181,20 @@ public class WxPaySendRedpackRequest extends BaseWxPayRequest {
   @Override
   public void setAppid(String appid) {
     this.wxAppid = appid;
+  }
+
+  @Override
+  protected void storeMap(Map<String, String> map) {
+    map.put("mch_billno", mchBillNo);
+    map.put("send_name", sendName);
+    map.put("re_openid", reOpenid);
+    map.put("total_amount", totalAmount.toString());
+    map.put("total_num", totalNum.toString());
+    map.put("amt_type", amtType);
+    map.put("wishing", wishing);
+    map.put("client_ip", clientIp);
+    map.put("act_name", actName);
+    map.put("remark", remark);
   }
 
 }
